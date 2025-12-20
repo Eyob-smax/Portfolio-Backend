@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc ",
     "server": "nodemon --watch ./src/**/*.ts --exec node src/server.ts"
   },
   "keywords": [],

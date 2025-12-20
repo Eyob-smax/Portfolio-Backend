@@ -1,5 +1,5 @@
 import express from "express";
-import { streamGroqResponse } from "../dist/ai.js";
+import { streamGroqResponse } from "./ai.js";
 
 const app = express();
 const port = process.env["PORT"] || 3000;

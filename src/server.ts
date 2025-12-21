@@ -11,7 +11,7 @@ app.get("/", (_, res) => {
   `);
 });
 
-app.get("/post", async (req, res) => {});
+// app.get("/post", async (req, res) => {});
 
 app.get("/ai/stream", async (req, res) => {
   const topic = req.query["topic"] as string;

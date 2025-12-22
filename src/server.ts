@@ -12,7 +12,7 @@ app.get("/", (_, res) => {
   `);
 });
 
-app.get("/post", async (req, res) => {
+app.get("/posts", async (req, res) => {
   const max = parseInt(req.query["max"] as string);
   const posts = fetchPosts(max || 12);
 

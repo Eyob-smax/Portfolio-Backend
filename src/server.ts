@@ -7,6 +7,7 @@ const app = express();
 app.use(
   cors({
     origin: "https://eyobsimachew.vercel.app/",
+    credentials: true,
   })
 );
 const port = process.env["PORT"] || 3000;

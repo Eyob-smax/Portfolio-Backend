@@ -6,7 +6,7 @@ import cors from "cors";
 const app = express();
 app.use(
   cors({
-    origin: ["https://eyobsimachew.vercel.app/"],
+    origin: "https://eyobsimachew.vercel.app/",
   })
 );
 const port = process.env["PORT"] || 3000;

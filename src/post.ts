@@ -8,7 +8,7 @@ export interface IPost {
   tags: string[];
 }
 
-export async function fetchPosts(topic?: string, max: number = 12) {
+export async function fetchPosts(max: number = 12, topic?: string) {
   try {
     return await prisma.post.findMany({
       take: max,

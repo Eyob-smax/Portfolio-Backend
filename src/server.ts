@@ -1,5 +1,6 @@
 import express from "express";
 import { streamGroqResponse } from "./ai.js";
+import { fetchPosts } from "./post.js";
 
 const app = express();
 const port = process.env["PORT"] || 3000;
@@ -11,7 +12,12 @@ app.get("/", (_, res) => {
   `);
 });
 
-// app.get("/post", async (req, res) => {});
+app.get("/post", async (req, res) => {
+  const max = parseInt(req.query["max"] as string);
+  const posts = fetchPosts(max || 12);
+
+  posts ? res.json(posts) : res.json("no posts found");
+});
 
 app.get("/ai/stream", async (req, res) => {
   const topic = req.query["topic"] as string;

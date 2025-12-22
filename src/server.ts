@@ -1,8 +1,14 @@
 import express from "express";
 import { streamGroqResponse } from "./ai.js";
 import { fetchPosts } from "./post.js";
+import cors from "cors";
 
 const app = express();
+app.use(
+  cors({
+    origin: ["eyobsimachew.verve.app"],
+  })
+);
 const port = process.env["PORT"] || 3000;
 
 app.get("/", (_, res) => {

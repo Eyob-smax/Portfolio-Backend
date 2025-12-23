@@ -1,16 +1,12 @@
 import express from "express";
-import { streamGroqResponse } from "./ai.js";
-import { fetchPosts } from "./post.js";
+import { streamGroqResponse } from "../dist/ai.js";
+import { fetchPosts } from "../dist/post.js";
 import cors from "cors";
 
 const app = express();
-app.use(
-  cors({
-    origin: "https://eyobsimachew.vercel.app",
-    credentials: true,
-  })
-);
-const port = process.env["PORT"] || 3000;
+
+const port = process.env["PORT"] || 4000;
+app.use(cors());
 
 app.get("/", (_, res) => {
   res.send(`
@@ -21,9 +17,8 @@ app.get("/", (_, res) => {
 
 app.get("/posts", async (req, res) => {
   const max = parseInt(req.query["max"] as string);
-  const posts = fetchPosts(max || 12);
-
-  posts ? res.json(posts) : res.json("no posts found");
+  const posts = await fetchPosts(max || 12);
+  res.json(posts);
 });
 
 app.get("/ai/stream", async (req, res) => {

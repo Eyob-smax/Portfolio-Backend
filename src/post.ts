@@ -13,17 +13,29 @@ export async function fetchPosts(max: number = 12, topic?: string) {
     const result = await prisma.post.findMany({
       take: max,
       orderBy: { date: "desc" },
-      include: { PostTag: { include: { Tag: true } } },
+      include: {
+        PostTag: {
+          include: { Tag: true },
+        },
+      },
       where: {
         OR: [
           {
             PostTag: {
-              some: { Tag: { tag: { contains: topic as string } } },
+              some: {
+                Tag: {
+                  tag: { contains: topic, mode: "insensitive" },
+                },
+              },
             },
+          },
+          {
+            post: { contains: topic, mode: "insensitive" },
           },
         ],
       },
     });
+    console.log("Fetched posts:", result);
     if (!result) {
       return new Error("Cna't find posts");
     }

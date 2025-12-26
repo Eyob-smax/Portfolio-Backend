@@ -4,8 +4,8 @@ import express, {
   type Response,
 } from "express";
 import cors from "cors";
-import { streamGroqResponse } from "../dist/ai.js";
-import { fetchPosts } from "../dist/post.js";
+import { streamGroqResponse } from "../dist/src/ai.js";
+import { fetchPosts } from "../dist/src/post.js";
 import { MessageController } from "./message.js";
 
 const app = express();
@@ -61,10 +61,8 @@ app.get("/ai/stream", async (req, res) => {
   });
 });
 
-/* ✅ MESSAGE ENDPOINT */
 app.post("/messages", MessageController.create);
 
-/* ✅ GLOBAL ERROR HANDLER */
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error("🔥 Global Error:", err);
   res.status(err.statusCode || 500).json({

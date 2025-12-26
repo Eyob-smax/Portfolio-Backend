@@ -6,7 +6,7 @@ import express, {
 import cors from "cors";
 import { streamGroqResponse } from "../dist/src/ai.js";
 import { fetchPosts } from "../dist/src/post.js";
-import { MessageController } from "./message.js";
+import { MessageController } from "../dist/src/message.js";
 
 const app = express();
 const port = process.env[`PORT`] || 4000;

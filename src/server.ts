@@ -4,9 +4,9 @@ import express, {
   type Response,
 } from "express";
 import cors from "cors";
-import { streamGroqResponse } from "../dist/src/ai.js";
-import { fetchPosts } from "../dist/src/post.js";
-import { MessageController } from "../dist/src/message.js";
+import { streamGroqResponse } from "../src/ai.js";
+import { fetchPosts } from "../src/post.js";
+import { MessageController } from "../src/message.js";
 
 const app = express();
 const port = process.env[`PORT`] || 4000;

@@ -4,9 +4,9 @@ import express, {
   type Response,
 } from "express";
 import cors from "cors";
-import { streamGroqResponse } from "../src/ai.js";
-import { fetchPosts } from "../src/post.js";
-import { MessageController } from "../src/message.js";
+import { streamGroqResponse } from "./ai.js";
+import { fetchPosts } from "./post.js";
+import { MessageController } from "./message.js";
 
 const app = express();
 const port = process.env[`PORT`] || 4000;
@@ -14,7 +14,7 @@ const port = process.env[`PORT`] || 4000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (_, res) => {
+app.get("/", async (_, res) => {
   res.send(`
     <h1>Eyob's Portfolio AI Chat</h1>
     <p>Try: <a href="/ai/stream?topic=What%20are%20your%20main%20projects?">

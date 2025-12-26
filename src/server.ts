@@ -1,17 +1,25 @@
-import express from "express";
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from "express";
+import cors from "cors";
 import { streamGroqResponse } from "../dist/ai.js";
 import { fetchPosts } from "../dist/post.js";
-import cors from "cors";
+import { MessageController } from "./message.js";
 
 const app = express();
+const port = process.env[`PORT`] || 4000;
 
-const port = process.env["PORT"] || 4000;
 app.use(cors());
+app.use(express.json());
 
 app.get("/", (_, res) => {
   res.send(`
     <h1>Eyob's Portfolio AI Chat</h1>
-    <p>Try: <a href="/ai/stream?topic=What%20are%20your%20main%20projects?">/ai/stream?topic=What are your main projects?</a></p>
+    <p>Try: <a href="/ai/stream?topic=What%20are%20your%20main%20projects?">
+      /ai/stream?topic=What are your main projects?
+    </a></p>
   `);
 });
 
@@ -32,20 +40,15 @@ app.get("/ai/stream", async (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.setHeader("Access-Control-Allow-Origin", "*");
   res.flushHeaders();
 
   try {
-    console.log(streamGroqResponse(topic));
     for await (const chunk of streamGroqResponse(topic)) {
       if (res.writableEnded) break;
-
       res.write(`data: ${chunk.data}\n\n`);
     }
-
     res.end();
   } catch (error: any) {
-    console.error("Stream failed:", error);
     if (!res.writableEnded) {
       res.write(`data: [Error: ${error.message}]\n\n`);
       res.end();
@@ -58,9 +61,18 @@ app.get("/ai/stream", async (req, res) => {
   });
 });
 
+/* ✅ MESSAGE ENDPOINT */
+app.post("/messages", MessageController.create);
+
+/* ✅ GLOBAL ERROR HANDLER */
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error("🔥 Global Error:", err);
+  res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
-  console.log(
-    `Test URL: http://localhost:${port}/ai/stream?topic=Tell%20me%20about%20Eyob's%20projects`
-  );
 });

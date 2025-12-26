@@ -69,7 +69,6 @@ class EmailService {
         html,
       });
 
-      console.log("✅ Email sent:", info.messageId);
       return info;
     } catch (error) {
       console.error("❌ Failed to send email:", (error as Error).message);

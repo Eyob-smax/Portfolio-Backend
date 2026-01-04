@@ -29,7 +29,70 @@ Designed with a focus on performance, reliability, and automation, the system su
 
 With a responsive design, dynamic API integration, and smooth dashboard interaction, this project demonstrates my expertise in React.js, Next.js, Tailwind CSS, Node.js, and MongoDB, blending both frontend and backend development to deliver a complete and production-ready solution.`,
   },
+  {
+    title: "HasabClient SDK",
+    description:
+      "A TypeScript SDK for the Hasab AI API, enabling easy integration of chat, transcription, translation, and text-to-speech features — especially powerful for local languages like Amharic. Built to simplify interaction with Hasab AI's high-quality voice and text models.",
 
+    class: ["library/tools", "sdk", "typescript"],
+    tags: [
+      "TypeScript",
+      "Node.js",
+      "API Client",
+      "Streaming",
+      "Axios",
+      "AI Integration",
+      "Hasab AI",
+    ],
+    visit: "https://www.npmjs.com/package/hasab-sdk",
+    source: "https://github.com/Eyob-smax/hasab_sdk",
+    detailedDescription: `HasabClient SDK
+HasabClient SDK is a modern, type-safe TypeScript library designed to make integration with the Hasab AI API simple and reliable. It provides a clean interface for four core AI capabilities: chat completions, audio transcription, text translation, and high-quality text-to-speech synthesis — with special strength in supporting local languages such as Amharic.
+
+Motivated by the impressive voice and text quality of Hasab AI for under-resourced languages, I created this SDK to remove the friction of working directly with raw API calls. Developers can now quickly add AI-powered chat, voice input/output, and translation features to their Node.js applications.
+
+Key features include:
+• Synchronous and streaming chat responses
+• Audio file transcription with history
+• Text translation with language detection
+• TTS synthesis (base64 & streaming) with speaker selection
+• History, analytics, and record management for TTS
+• Robust error handling with custom error classes
+• Support for file uploads via Buffer, path, or Blob
+
+The library is built with developer experience in mind: clear TypeScript types, consistent response shapes, and easy streaming integration using Node.js streams. It serves as a community tool to help more developers leverage Hasab AI’s capabilities in real-world applications.
+
+This project demonstrates my skills in API client design, TypeScript, streaming data handling, file uploads, and creating developer-friendly libraries.`,
+  },
+  {
+    title: "ELDCP – Ethiopian Language Data Collection Platform",
+    description:
+      "ELDCP is a university-focused platform designed to collect, validate, and manage high-quality Ethiopian language voice datasets for training AI models. It streamlines contributor submissions, multi-phase validations, and automated payments in a scalable and secure system.",
+
+    class: ["backend", "ai-data-collection"],
+    tags: [
+      "Next.js",
+      "Node.js",
+      "Prisma",
+      "PostgreSQL",
+      "JWT",
+      "Docker",
+      "Nginx",
+      "TailwindCSS",
+      "GitHub Actions",
+    ],
+    source: "NDA - Private Repository",
+    visit: "NDA - Private Deployment",
+    detailedDescription: `ELDCP (Ethiopian Language Data Collection Platform) is a full-scale data collection and validation system built to support the development of Ethiopian-language-focused AI models. Developed by a team of five, the platform is designed for universities and research institutions that require high-quality, verified voice datasets.
+
+The platform supports structured project management (e.g., Amharic datasets), where contributors receive unique links containing prompts and submit voice recordings directly through the system. Each submission passes through a two-stage validation pipeline: automatic audio validation to ensure clarity and quality, followed by a human-based review process.
+
+Human validation is handled by multiple validators. If two validators disagree, the submission is automatically escalated to a tie-breaker to ensure fairness and data accuracy. Once validated, the system generates invoices for both contributors and validators and allows administrators to export structured datasets (audio files, prompts, and metadata) for AI model training.
+
+ELDCP features role-based access control with four distinct roles: Super Admin, Project Manager, Contributor, and Validator. The application exposes over 65 RESTful endpoints and is built using Next.js, Prisma, and PostgreSQL, secured with JWT authentication.
+
+The platform is fully containerized with Docker, optimized behind Nginx, and integrated with GitHub Actions for CI/CD. It demonstrates strong backend architecture, scalable workflow design, and real-world problem solving in AI data engineering and system automation.`,
+  },
   {
     title: "Expense Tracker",
     description:
@@ -103,6 +166,45 @@ As a PWA, it supports offline functionality for core features and can be install
   },
 
   {
+    title: "Cod Stat",
+    description:
+      "A powerful and configurable Node.js command-line tool for analyzing source code statistics. It provides insights into line counts, code density, function complexity, largest files, and more — supporting multiple languages and ideal for personal projects or CI/CD integration.",
+
+    class: ["library/tools", "tool", "node"],
+    tags: [
+      "Node.js",
+      "TypeScript",
+      "CLI",
+      "Commander.js",
+      "Chalk",
+      "Progress Bar",
+      "Code Analysis",
+      "Code Metrics",
+    ],
+    visit: "https://www.npmjs.com/package/cod-stat",
+    source: "https://github.com/Eyob-smax/cod-stat",
+    detailedDescription: `Cod Stat
+Cod Stat is a fast, colorful, and highly configurable command-line tool built with Node.js to help developers gain deep insights into their codebase. It scans directories recursively, analyzes files across multiple programming languages, and delivers clear metrics on code quality, structure, and complexity.
+
+Perfect for solo developers reviewing personal projects, teams enforcing code standards, or integrating into CI/CD pipelines to track codebase health over time.
+
+Key features include:
+• Detailed line counting (total, code, blanks, comments) with code density calculation
+• Function/method counting and average length analysis
+• Rough complexity estimation based on control-flow keywords
+• Support for 15+ programming languages and common config/markup files
+• Filters for code-only or config-only scans
+• Top N largest files identification
+• Interactive progress bar for large repositories
+• Pretty colored table output or JSON export for automation
+• Custom ignore directories and language filtering
+
+The tool uses modern Node.js libraries like Commander for argument parsing, Chalk for vibrant terminal colors, and Cli-table for beautiful outputs — delivering a polished and intuitive user experience right in the terminal.
+
+This project showcases my expertise in building developer tools, CLI design, file system traversal, language-aware parsing, and creating reusable, production-ready Node.js packages.`,
+  },
+
+  {
     title: "Podcast Player",
     description:
       "SpaceCast is a Progressive Web App (PWA) podcast player built with Vanilla JavaScript, Node.js, and Express. Originally inspired by a childhood passion for astronomy and space, this app allows users to explore and listen to podcasts from a vast library of over 4,000,000 podcasts indexed via a powerful podcast API.",
@@ -121,6 +223,7 @@ With its responsive and user-friendly design, SpaceCast delivers a native app-li
 
 From searching and streaming podcasts to downloading and listening offline, SpaceCast demonstrates a deep understanding of modern web development, UX design, and performance optimization, all wrapped in a clean, immersive interface.`,
   },
+
   {
     title: "Simple E-commerce Site",
     description:
@@ -170,7 +273,6 @@ This bot demonstrates both technical depth and creative problem-solving, turning
     title: "YouTube Video Downloader",
     description:
       "A high-performance Telegram bot for downloading videos and extracting audio from TikTok, YouTube, Instagram, and more - in bulk or single files!",
-
     class: ["telegram-bot"],
     tags: ["NodeJS", "ExpressJS", "Telegraf", "ytdl-core"],
     source: "https://github.com/Eyob-smax/Media-Downloader-bot",
@@ -202,7 +304,8 @@ export const tech_stack = [
     skills: [
       { name: "JavaScript", proficiency: "Proficient" },
       { name: "TypeScript", proficiency: "Proficient" },
-      { name: "React", proficiency: "Intermediate" },
+      { name: "React", proficiency: "Proficient" },
+      { name: "Next.js", proficiency: "Intermediate" },
       { name: "Tailwind CSS", proficiency: "Proficient" },
       { name: "Redux", proficiency: "Intermediate" },
     ],
@@ -211,13 +314,16 @@ export const tech_stack = [
     category: "Backend",
     skills: [
       { name: "Node.js", proficiency: "Proficient" },
+      { name: "Bun", proficiency: "Intermediate" },
       { name: "Express.js", proficiency: "Proficient" },
-      { name: "NestJS", proficiency: "Intermediate" },
+      { name: "Hono.js", proficiency: "Intermediate" },
+      { name: "NestJS", proficiency: "Proficient" },
       { name: "Supabase", proficiency: "Proficient" },
-      { name: "PostgreSQL", proficiency: "Intermediate" },
-      { name: "MongoDB", proficiency: "Intermediate" },
+      { name: "PostgreSQL", proficiency: "Proficient" },
+      { name: "MongoDB", proficiency: "Proficient" },
       { name: "Redis", proficiency: "Proficient" },
       { name: "GraphQL", proficiency: "Intermediate" },
+      { name: "Prisma", proficiency: "Proficient" },
       {
         name: "Socket.IO",
         proficiency: "Intermediate",
@@ -227,11 +333,12 @@ export const tech_stack = [
   {
     category: "DevOps / Deployment",
     skills: [
-      { name: "Docker", proficiency: "Intermediate" },
+      { name: "Docker", proficiency: "Proficient" },
+      { name: "Kubernetes", proficiency: "Intermediate" },
       { name: "Vercel", proficiency: "Proficient" },
       {
         name: "GitHub Actions",
-        proficiency: "Learning",
+        proficiency: "Intermediate",
       },
     ],
   },

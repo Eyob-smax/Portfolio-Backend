@@ -1,11 +1,44 @@
-import { Groq } from "groq-sdk";
-import dotenv from "dotenv";
+import { streamGeminiText } from "./gemini.js";
 
-interface AiStreamChunk {
+export interface AiStreamChunk {
   data: string;
 }
 
+/*
+ * The AI's view of the portfolio.
+ *
+ * NOTE: this is a hand-kept copy of the frontend's `src/lib/data.ts` (minus the
+ * image imports, which mean nothing here). The two drifted once already —
+ * ArifQueue shipped on the site while the assistant kept answering "I don't
+ * know" about it — so anything added there has to be added here too.
+ */
 export const projects = [
+  {
+    title: "ArifQueue",
+    description:
+      "A digital healthcare platform that provides real-time queue visibility, smart clinic discovery, and AI-powered symptom guidance—helping patients skip long waits and enabling clinics to manage patient flow efficiently across Africa.",
+
+    class: ["full-stack", "healthtech", "queue-management", "saas"],
+    tags: [
+      "Next.js",
+      "Drizzle",
+      "Better Auth",
+      "Socket IO",
+      "Maps & Geolocation",
+      "AI",
+    ],
+    source: "https://github.com/Eyob-smax/AfriQueue",
+    visit: "https://afri-queue-ts2g.vercel.app/",
+    detailedDescription: `ArifQueue is a comprehensive digital healthcare platform designed to reduce waiting times and improve clinic operations by providing real-time queue visibility, smart clinic discovery, and seamless communication between patients and healthcare staff.
+
+Patients can register via email/password, Google OAuth, or phone OTP, set their country and city, discover nearby clinics on an interactive map, and join active queues for specific services (e.g., general consultation, lab tests, vaccination). The platform provides live queue tracking with estimated wait times, notifications as a patient’s turn approaches, and a full history of reservations and completed visits.
+
+Clinic staff manage patient flow through a live queue board: creating and updating service-specific queues, advancing or pausing queues, marking appointments as completed, and handling no-shows. Clinics also access insights like average wait time, daily volume, peak traffic hours, and reservation trends to optimize staffing and operations.
+
+Administrators oversee the entire platform: approving staff applications, managing health centers across multiple countries and cities, monitoring active reservations and queues, enforcing account controls, and maintaining a full audit trail of administrative actions for accountability and compliance.
+
+ArifQueue is built to scale across multiple African countries (including Ethiopia, Kenya, Nigeria, Ghana, South Africa, Tanzania, and Uganda) with country/city-based filtering, secure role-based access control, privacy-first handling of sensitive health data, and multi-channel notifications (in-app and email).`,
+  },
   {
     title: "Parcel Tracking System",
     description:
@@ -486,26 +519,8 @@ export const blogPosts = [
   },
 ];
 
-export async function* streamGroqResponse(
-  topic: string
-): AsyncGenerator<AiStreamChunk, void, unknown> {
-  dotenv.config({
-    path: "./.env",
-  });
-  if (!topic?.trim()) {
-    throw new Error("Topic cannot be empty");
-  }
-
-  const apiKey = process.env["GROQ_API_KEY"];
-  if (!apiKey) {
-    throw new Error("GROQ_API_KEY is not configured");
-  }
-
-  const groq = new Groq({ apiKey });
-  const model = process.env["AI_MODEL"];
-
-  const systemPrompt = `
-You are an AI assistant embedded in Eyob's personal portfolio website. Your purpose is to help visitors learn more about Eyob by answering questions ONLY using the provided JSON context. Be friendly, approachable, engaging, and never boring. Respond naturally to casual greetings or small talk (e.g., "Hi" → "Hey! How’s it going? I’m Eyob's AI assistant — ask me anything about his projects, skills, experience, or journey!").
+const SYSTEM_PROMPT = `
+You are an AI assistant embedded in Eyob's personal portfolio website. Your purpose is to help visitors learn more about Eyob by answering questions ONLY using the provided JSON context. Be friendly, approachable, engaging, and never boring. Respond naturally to casual greetings or small talk (e.g., "Hi" → "Hey! How's it going? I'm Eyob's AI assistant — ask me anything about his projects, skills, experience, or journey!").
 
 Your responsibilities:
 - Provide accurate, clear, and engaging information about Eyob's skills, background, timeline, experience, and personal qualities.
@@ -573,27 +588,27 @@ Personal Qualities = ${JSON.stringify(qualities)}
 Blog Posts (Telegram Community) = ${JSON.stringify(blogPosts)}
 `;
 
-  try {
-    const stream = await groq.chat.completions.create({
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: topic },
-      ],
-      model: model as string,
-      temperature: 0.7,
-      max_tokens: 1024,
-      stream: true,
-    });
+/**
+ * Answers a visitor's question about Eyob, streamed a token at a time.
+ *
+ * The whole portfolio is stuffed into the system instruction rather than
+ * retrieved per question: it is a few kilobytes of static JSON, so there is
+ * nothing to gain from a retrieval step and plenty to lose — a question about
+ * "the parcel project and the SDK" needs both records present at once.
+ */
+export async function* streamAiResponse(
+  topic: string,
+  signal?: AbortSignal
+): AsyncGenerator<AiStreamChunk, void, unknown> {
+  if (!topic?.trim()) {
+    throw new Error("Topic cannot be empty");
+  }
 
-    for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content;
-
-      if (content) {
-        yield { data: content };
-      }
-    }
-  } catch (error: any) {
-    console.error("Groq streaming error:", error.message);
-    yield { data: `[Error: ${error.message}]` };
+  for await (const text of streamGeminiText({
+    system: SYSTEM_PROMPT,
+    prompt: topic,
+    ...(signal ? { signal } : {}),
+  })) {
+    yield { data: text };
   }
 }

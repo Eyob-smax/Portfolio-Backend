@@ -1,10 +1,12 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import dotenv from "dotenv";
+import { required } from "./env.js";
 import { PrismaClient } from "./generated/prisma/client.js";
-dotenv.config();
-const connectionString = `${process.env["DATABASE_URL"]}`;
 
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+/*
+ * `required` rather than a template literal: interpolating a missing variable
+ * produced the connection string "undefined", which Postgres rejects much
+ * later with an error that names neither the variable nor this file.
+ */
+const adapter = new PrismaPg({ connectionString: required("DATABASE_URL") });
 
-export { prisma };
+export const prisma = new PrismaClient({ adapter });

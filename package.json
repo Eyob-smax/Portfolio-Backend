@@ -1,14 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Express + Prisma backend for Eyob's portfolio: Gemini-powered chat, dev-journal posts, contact form.",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/app.ts",
-    "build": "tsc",
-    "start": "node dist/app.js",
-    "postinstall": "prisma generate",
-    "server": "nodemon ./dist/server.js --watch ./dist/server.js"
+    "dev": "tsx watch src/server.ts",
+    "build": "prisma generate && tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +19,8 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
     "@types/nodemailer": "^7.0.4",
-    "nodemon": "^3.1.11",
     "prisma": "^7.2.0",
+    "tsx": "^4.20.3",
     "typescript": "^5.9.3"
   },
   "dependencies": {
@@ -29,8 +29,6 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "groq-sdk": "^0.37.0",
-    "nodemailer": "^7.0.12",
-    "rxjs": "^7.8.2"
+    "nodemailer": "^7.0.12"
   }
 }

@@ -12,11 +12,17 @@ import { optional, required } from "./env.js";
 
 const API_ROOT = "https://generativelanguage.googleapis.com/v1beta";
 /*
- * gemini-2.5-flash is closed to new API keys — it answers 404 with a note
- * pointing here — so 3.6 Flash is the working default, not merely the newer
- * one.
+ * Two constraints pick this, and neither is "newest wins":
+ *
+ *  - gemini-2.5-* is closed to new API keys. It still appears in ListModels,
+ *    but generateContent answers 404 — so listing a model is not evidence it
+ *    can be called.
+ *  - The full Flash models carry a 20-request/day free tier, which a portfolio
+ *    chat widget exhausts in an afternoon. Flash Lite's allowance is far
+ *    larger, and the answers here are short and grounded in a fixed context,
+ *    so the smaller model costs nothing that matters.
  */
-const DEFAULT_MODEL = "gemini-3.6-flash";
+const DEFAULT_MODEL = "gemini-3.5-flash-lite";
 
 /** The configured model, so callers and logs agree on what actually ran. */
 export function aiModel(): string {
@@ -86,7 +92,7 @@ export async function* streamGeminiText(
         generationConfig: {
           temperature: options.temperature ?? 0.7,
           /*
-           * Generous on purpose. The 2.5 models reason before answering and
+           * Generous on purpose. These models reason before answering and
            * that reasoning is charged against this same budget, so a tight cap
            * can be spent entirely on thinking — the request then finishes with
            * MAX_TOKENS and not one visible character, which reads to the
